@@ -1,8 +1,9 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from stories.models import Story
-from stories.serializers import StorySerializer
+from stories.serializers import StorySerializer, AuthorSerializer
 from stories.permissions import IsAuthorOrReadOnly
+from users.models import CustomUser
 
 
 class StoryViewSet(viewsets.ModelViewSet):
@@ -12,3 +13,8 @@ class StoryViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+
+class AuthorViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = CustomUser.objects.all()
+    serializer_class = AuthorSerializer
