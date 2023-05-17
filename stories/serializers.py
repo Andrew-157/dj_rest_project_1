@@ -4,21 +4,25 @@ from users.models import CustomUser
 
 
 class StorySerializer(serializers.HyperlinkedModelSerializer):
-    author = serializers.ReadOnlyField(source='author.username')
+    author_name = serializers.ReadOnlyField(source='author.username')
+    author = serializers.HyperlinkedRelatedField(
+        view_name='author-detail', read_only=True
+    )
 
     class Meta:
         model = Story
-        fields = ['url', 'id', 'title', 'content', 'author', 'pub_date']
+        fields = ['url', 'id', 'title', 'content',
+                  'pub_date', 'author_name', 'author']
 
 
 class AuthorSerializer(serializers.HyperlinkedModelSerializer):
     # You can prefix view_name with app's name, but
     # then you'll have to write url field explicitly in all
     # other views that are using HyperlinkedModelSerializer
-    # to prefix view_names with app's name 
+    # to prefix view_names with app's name
     url = serializers.HyperlinkedIdentityField(
         view_name='author-detail')
 
     class Meta:
         model = CustomUser
-        fields = ['url', 'id', 'username']
+        fields = ['url', 'id', 'username', 'email', 'user_image']
