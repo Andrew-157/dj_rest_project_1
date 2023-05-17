@@ -1,9 +1,9 @@
 from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer,\
     UserSerializer as BaseUserSerializer
-from rest_framework import serializers
 
 
 class UserCreateSerializer(BaseUserCreateSerializer):
+    print('serializer')
 
     class Meta(BaseUserCreateSerializer.Meta):
         fields = [

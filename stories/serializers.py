@@ -22,7 +22,12 @@ class AuthorSerializer(serializers.HyperlinkedModelSerializer):
     # to prefix view_names with app's name
     url = serializers.HyperlinkedIdentityField(
         view_name='author-detail')
+    stories = serializers.HyperlinkedRelatedField(
+        many=True, view_name='story-detail', read_only=True
+    )
 
     class Meta:
         model = CustomUser
-        fields = ['url', 'id', 'username', 'email', 'user_image']
+        fields = [
+            'url', 'id', 'username', 'stories',
+        ]
